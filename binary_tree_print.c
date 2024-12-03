@@ -1,36 +1,45 @@
 #include "binary_trees.h"
 
-/* Helper function to print spaces */
-static void print_spaces(int spaces)
+/**
+ * print_spaces - Prints spaces for tree formatting
+ * @n: Number of spaces to print
+*/
+static void print_spaces(int n)
 {
-    for (int i = 0; i < spaces; i++)
-        putchar(' ');
-}
-
-/* Helper function to print binary tree recursively */
-static void print_tree(const binary_tree_t *tree, int depth)
-{
-    if (tree == NULL)
-        return;
-
-    if (tree->right != NULL)
-        print_tree(tree->right, depth + 1);
-
-    print_spaces(depth * 8);
-    printf("(%03d)\n", tree->n);
-
-    if (tree->left != NULL)
-        print_tree(tree->left, depth + 1);
+	while (n--)
+		printf(" ");
 }
 
 /**
- * binary_tree_print - Prints a binary tree
+ * print_tree - Prints a tree structure
+ * @tree: Pointer to the root node of the tree to print
+ * @level: Current level in the tree (used for formatting)
+ * @is_left: Flag indicating if the node is a left child
+*/
+static void print_tree(const binary_tree_t *tree, int level, int is_left)
+{
+	if (tree == NULL)
+		return;
+
+	print_spaces(level);
+	if (is_left)
+		printf("L---");
+	else
+		printf("R---");
+
+	printf("%d\n", tree->n);
+
+	print_tree(tree->left, level + 4, 1);
+	print_tree(tree->right, level + 4, 0);
+}
+
+/**
+ * binary_tree_print - Prints a binary tree in a pretty format
  * @tree: Pointer to the root node of the tree to print
 */
 void binary_tree_print(const binary_tree_t *tree)
 {
-    if (tree == NULL)
-        return;
-
-    print_tree(tree, 0);
+	if (tree == NULL)
+		return;
+	print_tree(tree, 0, 0);
 }
